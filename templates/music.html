@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Search</title>
+</head>
+<body>
+    <h1>Search for Songs</h1>
+    <form method="POST" action="{{ url_for('music.music') }}">
+        <input type="text" name="query" value="{{ query }}" placeholder="Search by title or artist">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if songs %}
+        <h2>Search Results</h2>
+        <ul>
+        {% for song in songs %}
+            <li>
+                <strong>{{ song.track_name }}</strong> by {{ song.artist_name }}
+                <form method="POST" style="display:inline;">
+                    <input type="hidden" name="query" value="{{ query }}">
+                    <input type="hidden" name="song_id" value="{{ song.id }}">
+                    <button type="submit">Add to Library</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2>Your Library</h2>
+    {% if library %}
+        <ul>
+        {% for song in library %}
+            <li>{{ song.track_name }} by {{ song.artist_name }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No songs in library yet.</p>
+    {% endif %}
+</body>
+</html>
